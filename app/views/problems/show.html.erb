@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @problem.title %>
+</p>
+
+<p>
+  <strong>Problem Statement:</strong>
+  <%= @problem.problemStatement %>
+</p>
+
+<p>
+  <strong>Time Limit:</strong>
+  <%= @problem.timeLimit %>
+</p>
+
+<p>
+  <strong>Source Limit:</strong>
+  <%= @problem.sourceLimit %>
+</p>
+
+<p>
+  <strong>Date Added:</strong>
+  <%= @problem.dateAdded %>
+</p>
+
+<!-- <p>
+  <strong>Solutionfile:</strong>
+  <%= @problem.solutionFile %>
+</p>
+
+<p>
+  <strong>Testfile:</strong>
+  <%= @problem.testFile %>
+</p>
+
+<%= link_to 'Edit', edit_problem_path(@problem) %>  -->
+
+<%= link_to 'Back', problems_path %>
+<%= link_to 'Submit', new_submission_path %>

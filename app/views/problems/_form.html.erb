@@ -1,0 +1,17 @@
+<%= simple_form_for(@problem) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :timeLimit %>
+    <%= f.input :sourceLimit %>
+    <%= f.input :dateAdded %>
+    <%= f.input :problemStatement %>
+    <%= f.input :solutionFile %>
+    <%= f.input :testFile %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

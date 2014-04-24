@@ -1,13 +1,13 @@
-<h1>Listing contests</h1>
-
-<table>
-  <thead>
+<h1>Listing Contests</h1>
+<div class="table-responsive">
+    
+<table id="problems" class="table table-stripped">  
+ <thead>
     <tr>
-      <th>Contestname</th>
-      <th>Startdatetime</th>
-      <th>Enddatetime</th>
-      <th>Conteststatus</th>
-      <th>User</th>
+      <th>Contest name</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Organiser</th>
       <th></th>
       <th></th>
       <th></th>
@@ -17,14 +17,11 @@
   <tbody>
     <% @contests.each do |contest| %>
       <tr>
-        <td><%= contest.contestName %></td>
+        <td><%= link_to(contest.contestName, contest) %></td>
         <td><%= contest.startDateTime %></td>
         <td><%= contest.endDateTime %></td>
-        <td><%= contest.contestStatus %></td>
-        <td><%= contest.user %></td>
-        <td><%= link_to 'Show', contest %></td>
-        <td><%= link_to 'Edit', edit_contest_path(contest) %></td>
-        <td><%= link_to 'Destroy', contest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= contest.user.username %></td>
+        
       </tr>
     <% end %>
   </tbody>
@@ -32,4 +29,6 @@
 
 <br>
 
-<%= link_to 'New Contest', new_contest_path %>
+<%if current_user.try(:admin?) %>
+    <%= link_to 'New Contest', new_contest_path %>
+<%end%>

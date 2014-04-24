@@ -57,3 +57,7 @@ gem 'bootstrap_form'
 gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 
 gem 'jquery-ui-rails'
+
+gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
+
+gem 'foreigner'

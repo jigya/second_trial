@@ -14,6 +14,8 @@
     <%= f.input :dateOfBirth, label: 'Date of Birth', required: false %>
     <%= f.input :country, label: 'Country', required: false %>
     <%= f.input :aboutMe, label: 'Motto', required: false %>
+    <%= f.collection_radio_buttons :occupation, [['Student',"Student"],["Professional","Professional"]],:first,:last %>
+
     <%= f.input :institution, label: 'Institution', required: false %>
     <%= f.input :password, label: 'Password', required: true %>
     <%= f.input :password_confirmation,label: 'Re-enter password', required: true %>

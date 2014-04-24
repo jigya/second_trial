@@ -11,6 +11,8 @@ SecondTrial::Application.routes.draw do
   end
 
     devise_for :users
+    match 'users/:id' => 'users#show', :via => [:get]
+    match '/about' => 'welcome#about', :via => [:get]
     #devise_for :users do get '/users/sign_out' => 'devise/sessions#destroy' end
   get "welcome/index"
   

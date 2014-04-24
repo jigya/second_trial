@@ -1,14 +1,18 @@
-<%= simple_form_for(@problem) do |f| %>
+<%= simple_form_for @problem, :html => { :multipart => true } do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :title %>
-    <%= f.input :timeLimit %>
-    <%= f.input :sourceLimit %>
-    <%= f.input :dateAdded %>
-    <%= f.input :problemStatement %>
-    <%= f.input :solutionFile %>
-    <%= f.input :testFile %>
+    <%= f.input :title, :label => 'Problem Title'%>
+    <%= f.input :timeLimit, :label => 'Time Limit' %>
+    <%= f.input :sourceLimit, :label => 'Source Limit' %>
+    <%= f.input :dateAdded, :as => :hidden, :input_html => {:value => Time.now.to_date} %>
+    <li>
+    <%= f.input :problem_statement, :label => 'Problem Statement' %>
+    <%= f.file_field :solution_file, :label => 'Upload solution file'%>
+    <%= f.file_field :test_file, :label => 'Upload test file'%>
+    <li>
+    <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id} %> 
+    </li> 
   </div>
 
   <div class="form-actions">

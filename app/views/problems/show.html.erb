@@ -7,7 +7,7 @@
 
 <p>
   <strong>Problem Statement:</strong>
-  <%= @problem.problemStatement %>
+  <%= @problem.problem_statement %>
 </p>
 
 <p>
@@ -25,17 +25,4 @@
   <%= @problem.dateAdded %>
 </p>
 
-<!-- <p>
-  <strong>Solutionfile:</strong>
-  <%= @problem.solutionFile %>
-</p>
-
-<p>
-  <strong>Testfile:</strong>
-  <%= @problem.testFile %>
-</p>
-
-<%= link_to 'Edit', edit_problem_path(@problem) %>  -->
-
-<%= link_to 'Back', problems_path %>
-<%= link_to 'Submit', new_submission_path %>
+<%= link_to 'Submit', new_problem_submission_path(@problem) %>

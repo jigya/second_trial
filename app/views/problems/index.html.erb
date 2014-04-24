@@ -43,10 +43,8 @@
 <tbody>
     <% @problems.each do |problem| %> 
     <tr>  
-      <!-- <th>problem.id</th> -->
       <td><%= link_to(problem.title, problem) %></td>   
       <td><%= problem.timeLimit%></td> 
-      <!-- <td><%= problem.dateAdded.strftime("%B %e, %Y") %></td>    -->
       <td><%= problem.dateAdded %></td>
     </tr>
   <% end %>

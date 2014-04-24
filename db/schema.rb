@@ -11,22 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414111905) do
+ActiveRecord::Schema.define(version: 20140422050839) do
 
   create_table "contests", force: true do |t|
-    t.string   "contestName"
-    t.datetime "startDateTime"
-    t.datetime "endDateTime"
-    t.string   "contestStatus"
+    t.string   "contestName",   default: "", null: false
+    t.datetime "startDateTime",              null: false
+    t.datetime "endDateTime",                null: false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "contests", ["contestName", "startDateTime"], name: "index_contests_on_contestName_and_startDateTime", unique: true
   add_index "contests", ["user_id"], name: "index_contests_on_user_id"
 
   create_table "participants", force: true do |t|
-    t.decimal  "score"
+    t.decimal  "score",      default: 0.0
     t.integer  "contest_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -44,28 +44,38 @@ ActiveRecord::Schema.define(version: 20140414111905) do
   end
 
   add_index "problem_in_contests", ["contest_id"], name: "index_problem_in_contests_on_contest_id"
+  add_index "problem_in_contests", ["problem_id", "contest_id"], name: "index_problem_in_contests_on_problem_id_and_contest_id", unique: true
   add_index "problem_in_contests", ["problem_id"], name: "index_problem_in_contests_on_problem_id"
 
   create_table "problems", force: true do |t|
-    t.string   "title"
-    t.decimal  "timeLimit"
-    t.decimal  "sourceLimit"
+    t.string   "title",                      default: "",      null: false
+    t.decimal  "timeLimit",                  default: 2.0,     null: false
+    t.decimal  "sourceLimit",                default: 50000.0, null: false
     t.date     "dateAdded"
-    t.text     "problemStatement"
-    t.text     "solutionFile"
-    t.text     "testFile"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username"
+    t.string   "solution_file_file_name"
+    t.string   "solution_file_content_type"
+    t.integer  "solution_file_file_size"
+    t.datetime "solution_file_updated_at"
+    t.string   "test_file_file_name"
+    t.string   "test_file_content_type"
+    t.integer  "test_file_file_size"
+    t.datetime "test_file_updated_at"
+    t.text     "problem_statement",          default: "",      null: false
+    t.integer  "user_id"
   end
 
+  add_index "problems", ["title"], name: "index_problems_on_title", unique: true
+  add_index "problems", ["user_id"], name: "index_problems_on_user_id"
+
   create_table "submissions", force: true do |t|
-    t.string   "languageUsed"
+    t.string   "languageUsed",         default: "C++", null: false
     t.datetime "dateTimeOfSubmission"
-    t.decimal  "timeTaken"
-    t.decimal  "memoryUsed"
-    t.text     "submissionFile"
-    t.text     "status"
+    t.decimal  "timeTaken",            default: 0.0
+    t.decimal  "memoryUsed",           default: 0.0
+    t.text     "submissionFile",       default: "",    null: false
+    t.text     "status",               default: "0"
     t.integer  "user_id"
     t.integer  "problem_id"
     t.integer  "contest_id"
@@ -78,28 +88,31 @@ ActiveRecord::Schema.define(version: 20140414111905) do
   add_index "submissions", ["user_id"], name: "index_submissions_on_user_id"
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",        null: false
+    t.string   "encrypted_password",     default: "",        null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,         null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username"
-    t.string   "name"
+    t.string   "username",               default: "",        null: false
+    t.string   "name",                   default: "",        null: false
     t.date     "dateOfBirth"
     t.string   "country"
     t.text     "aboutMe"
-    t.decimal  "ranking"
+    t.decimal  "ranking",                default: 0.0,       null: false
     t.text     "institution"
+    t.boolean  "admin",                  default: false,     null: false
+    t.string   "occupation",             default: "Student", null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["username"], name: "index_users_on_username", unique: true
 
 end

@@ -19,18 +19,14 @@
     <% @submissions.each do |submission| %>
       <tr>
         <td><%= submission.id %></td>
-        <td><%= submission.problem %></td>
+        <td><%= submission.problem_id %></td>
         <td><%= submission.languageUsed %></td>
-        <td><%= submission.problem %></td>
         <td><%= submission.dateTimeOfSubmission %></td>
         <td><%= submission.timeTaken %></td>
         <td><%= submission.memoryUsed %></td>
         <td><%= submission.status %></td>
-        <td><%= submission.user %></td>
-        <td><%= submission.contest %></td>
-<!--         <td><%= link_to 'Show', submission %></td>
-        <td><%= link_to 'Edit', edit_submission_path(submission) %></td>
-        <td><%= link_to 'Destroy', submission, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+        <td><%= submission.user_id %></td>
+        <td><%= submission.contest_id %></td>
       </tr>
     <% end %>
   </tbody>
@@ -38,4 +34,3 @@
 
 <br>
 
-<%= link_to 'New Submission', new_submission_path %>

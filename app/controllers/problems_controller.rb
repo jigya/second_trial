@@ -1,5 +1,6 @@
 class ProblemsController < ApplicationController
   before_action :set_problem, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:new, :create]
 
   # GET /problems
   # GET /problems.json
@@ -16,6 +17,7 @@ class ProblemsController < ApplicationController
   # GET /problems/new
   def new
     @problem = Problem.new
+    
   end
 
   # GET /problems/1/edit
@@ -26,7 +28,6 @@ class ProblemsController < ApplicationController
   # POST /problems.json
   def create
     @problem = Problem.new(problem_params)
-
     respond_to do |format|
       if @problem.save
         format.html { redirect_to @problem, notice: 'Problem was successfully created.' }
@@ -70,6 +71,6 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :timeLimit, :sourceLimit, :dateAdded, :problemStatement, :solutionFile, :testFile)
+      params.require(:problem).permit(:title, :timeLimit, :sourceLimit, :dateAdded, :problem_statement, :solution_file, :test_file)
     end
 end

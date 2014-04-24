@@ -1,15 +1,21 @@
 class ContestsController < ApplicationController
   before_action :set_contest, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:new, :edit, :update, :destroy]
 
   # GET /contests
   # GET /contests.json
   def index
-    @contests = Contest.all
+    @contests = Contest.where('id!=?', 1).order(startDateTime: :desc)
   end
 
   # GET /contests/1
   # GET /contests/1.json
   def show
+    @problem_in_contest = ProblemInContest.new
+    @problems = Problem.joins(:problem_in_contests).where('contest_id= ?',params[:id])
+    @participants = Participant.where('contest_id=?',params[:id])
+    @parorder=Submission.joins('INNER JOIN participants on submissions.user_id=participants.user_id AND submissions.contest_id=participants.contest_id  ').select("submissions.user_id, COUNT(distinct problem_id) as Solved,SUM(dateTimeOfSubmission) as TimeTaken").where('submissions.contest_id=? AND status="1"', params[:id]).group("submissions.user_id").order("COUNT(DISTINCT problem_id) desc, SUM(dateTimeOfSubmission) asc")
+
   end
 
   # GET /contests/new
@@ -24,7 +30,12 @@ class ContestsController < ApplicationController
   # POST /contests
   # POST /contests.json
   def create
-    @contest = Contest.new(contest_params)
+  @contest = Contest.new(contest_params)
+  civildate = "#{params[:contest]["startDateTime(1i)"].to_s}-#{params[:contest]["startDateTime(2i)"].to_s}-#{params[:contest]["startDateTime(3i)"].to_s} #{params[:contest]["startDateTime(4i)"].to_s}:#{params[:contest]["startDateTime(5i)"].to_s}"
+  @contest.startDateTime= civildate
+  civildate = "#{params[:contest]["endDateTime(1i)"].to_s}-#{params[:contest]["endDateTime(2i)"].to_s}-#{params[:contest]["endDateTime(3i)"].to_s} #{params[:contest]["endDateTime(4i)"].to_s}:#{params[:contest]["endDateTime(5i)"].to_s}"
+  @contest.endDateTime = civildate
+
 
     respond_to do |format|
       if @contest.save

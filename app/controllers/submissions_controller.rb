@@ -1,5 +1,7 @@
 class SubmissionsController < ApplicationController
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:new, :edit, :update, :destroy]
+
 
   # GET /submissions
   # GET /submissions.json
@@ -14,7 +16,18 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    @submission = Submission.new
+    @problem=Problem.find(params[:problem_id])
+    if(params[:problem_id]=1)
+          @submission = Submission.new
+    else
+      @pid=ProblemInContest.select(:contest_id).where('problem_id=?', params[:problem_id])
+      @cid=Contest.where('id=?',@pid[0]).select(:endDateTime)
+      if (@cid[0]<DateTime.now)
+        format.html { redirect_to @problem, notice: 'Contest has ended' }
+      else
+        @submission = Submission.new
+      end
+    end
   end
 
   # GET /submissions/1/edit
@@ -24,16 +37,23 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.json
   def create
-      #@problem=Problem.find(params[:problem_id])
-    @submission = Submission.new(submission_params)
+      @problem=Problem.find(params[:problem_id])
+      @submission = Submission.new(submission_params)
+      @submission.user_id=current_user.id
 
     respond_to do |format|
       if @submission.save
-        format.html { redirect_to @submission, notice: 'Submission was successfully created.' }
+        hostname = 'localhost'
+        port = 50007
+        s = TCPSocket.open(hostname, port)
+        puts "logged"
+        s.puts @submission.id
+        s.close
+        format.html { redirect_to @problem, notice: 'Submission was successfully created.' }
         format.json { render action: 'show', status: :created, location: @submission }
       else
         format.html { render action: 'new' }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
+        format.json { render json: sub.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -72,4 +92,6 @@ class SubmissionsController < ApplicationController
     def submission_params
       params.require(:submission).permit(:languageUsed, :dateTimeOfSubmission, :timeTaken, :memoryUsed, :submissionFile, :status, :user_id, :problem_id, :contest_id)
     end
+
+
 end

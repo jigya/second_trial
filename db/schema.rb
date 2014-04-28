@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140422050839) do
+ActiveRecord::Schema.define(version: 20140427123159) do
 
   create_table "contests", force: true do |t|
     t.string   "contestName",   default: "", null: false
@@ -26,13 +26,13 @@ ActiveRecord::Schema.define(version: 20140422050839) do
   add_index "contests", ["user_id"], name: "index_contests_on_user_id"
 
   create_table "participants", force: true do |t|
-    t.decimal  "score",      default: 0.0
     t.integer  "contest_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "participants", ["contest_id", "user_id"], name: "index_participants_on_contest_id_and_user_id", unique: true
   add_index "participants", ["contest_id"], name: "index_participants_on_contest_id"
   add_index "participants", ["user_id"], name: "index_participants_on_user_id"
 
@@ -44,8 +44,7 @@ ActiveRecord::Schema.define(version: 20140422050839) do
   end
 
   add_index "problem_in_contests", ["contest_id"], name: "index_problem_in_contests_on_contest_id"
-  add_index "problem_in_contests", ["problem_id", "contest_id"], name: "index_problem_in_contests_on_problem_id_and_contest_id", unique: true
-  add_index "problem_in_contests", ["problem_id"], name: "index_problem_in_contests_on_problem_id"
+  add_index "problem_in_contests", ["problem_id"], name: "index_problem_in_contests_on_problem_id", unique: true
 
   create_table "problems", force: true do |t|
     t.string   "title",                      default: "",      null: false

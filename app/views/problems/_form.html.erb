@@ -6,13 +6,10 @@
     <%= f.input :timeLimit, :label => 'Time Limit' %>
     <%= f.input :sourceLimit, :label => 'Source Limit' %>
     <%= f.input :dateAdded, :as => :hidden, :input_html => {:value => Time.now.to_date} %>
-    <li>
     <%= f.input :problem_statement, :label => 'Problem Statement' %>
     <%= f.file_field :solution_file, :label => 'Upload solution file'%>
     <%= f.file_field :test_file, :label => 'Upload test file'%>
-    <li>
-    <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id} %> 
-    </li> 
+    <%= f.association :user, :as=>:hidden,:input_html=> { :value => current_user.id} %> 
   </div>
 
   <div class="form-actions">

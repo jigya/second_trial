@@ -27,7 +27,6 @@
 <%if current_user.try(:admin?)%>
 
 <div class="row">
-
   <%= render 'shared/problemadd' %>
 </div>
 <%end%>
@@ -48,6 +47,10 @@
   <%= link_to 'Edit', edit_contest_path(@contest) %> |
   <%= link_to 'Create New Problem', new_problem_path %> 
 <%end%>
+
+<%if @contest.endDateTime>DateTime.now %>
+<%= render 'shared/participantadd' %>
+<% end%>
 
 </div>
 

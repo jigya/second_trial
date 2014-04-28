@@ -15,7 +15,7 @@ class ContestsController < ApplicationController
     @problems = Problem.joins(:problem_in_contests).where('contest_id= ?',params[:id])
     @participants = Participant.where('contest_id=?',params[:id])
     @parorder=Submission.joins('INNER JOIN participants on submissions.user_id=participants.user_id AND submissions.contest_id=participants.contest_id  ').select("submissions.user_id, COUNT(distinct problem_id) as Solved,SUM(dateTimeOfSubmission) as TimeTaken").where('submissions.contest_id=? AND status="1"', params[:id]).group("submissions.user_id").order("COUNT(DISTINCT problem_id) desc, SUM(dateTimeOfSubmission) asc")
-
+    @participant=Participant.new
   end
 
   # GET /contests/new

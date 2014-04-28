@@ -16,18 +16,8 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    @problem=Problem.find(params[:problem_id])
-    if(params[:problem_id]=1)
-          @submission = Submission.new
-    else
-      @pid=ProblemInContest.select(:contest_id).where('problem_id=?', params[:problem_id])
-      @cid=Contest.where('id=?',@pid[0]).select(:endDateTime)
-      if (@cid[0]<DateTime.now)
-        format.html { redirect_to @problem, notice: 'Contest has ended' }
-      else
-        @submission = Submission.new
-      end
-    end
+      @problem=Problem.find(params[:problem_id])
+      @submission = Submission.new
   end
 
   # GET /submissions/1/edit
@@ -43,12 +33,12 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       if @submission.save
-        hostname = 'localhost'
-        port = 50007
-        s = TCPSocket.open(hostname, port)
-        puts "logged"
-        s.puts @submission.id
-        s.close
+        # hostname = 'localhost'
+        # port = 50007
+        # s = TCPSocket.open(hostname, port)
+        # puts "logged"
+        # s.puts @submission.id
+        # s.close
         format.html { redirect_to @problem, notice: 'Submission was successfully created.' }
         format.json { render action: 'show', status: :created, location: @submission }
       else
@@ -92,6 +82,4 @@ class SubmissionsController < ApplicationController
     def submission_params
       params.require(:submission).permit(:languageUsed, :dateTimeOfSubmission, :timeTaken, :memoryUsed, :submissionFile, :status, :user_id, :problem_id, :contest_id)
     end
-
-
 end

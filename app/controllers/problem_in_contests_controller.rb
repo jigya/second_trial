@@ -31,7 +31,7 @@ class ProblemInContestsController < ApplicationController
         format.html { redirect_to Contest.find(@problem_in_contest.contest_id), notice: 'Problem in contest was successfully created.' }
         format.json { render action: 'show', status: :created, location: @problem_in_contest }
       else
-        format.html { redirect_to Contest.find(@problem_in_contest.contest_id), notice: 'Problem in contest was successfully created.' }
+        format.html { redirect_to Contest.find(@problem_in_contest.contest_id), notice: 'Problem is already present in contest' }
         format.json { render json: @problem_in_contest.errors, status: :unprocessable_entity }
       end
     end

@@ -3,19 +3,14 @@
 <table>
   <thead>
     <tr>
-      <th>Score</th>
       <th>Contest</th>
       <th>User</th>
-      <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @participants.each do |participant| %>
       <tr>
-        <td><%= participant.score %></td>
         <td><%= participant.contest %></td>
         <td><%= participant.user %></td>
       </tr>

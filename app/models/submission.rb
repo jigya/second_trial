@@ -9,11 +9,11 @@ class Submission < ActiveRecord::Base
 
   validates :languageUsed, presence: true, inclusion: {in: [".cpp", ".java", ".py", ".c"]}
   validates :submissionFile, presence: true
+  validate :contest_has_ended
 
-  
   protected
     def save_file
-      directory="/Users/pratyushsharma/Documents/second_trial/public/system/submissions"
+      directory="/Users/jigyayadav/rails_projects/second_trial/public/system/submissions"
       path=File.join(directory, Problem.find_by(id: self.problem_id).title ,self.id.to_s + self.languageUsed )
       dirname = File.dirname(path) 
       unless File.directory?(dirname) 
@@ -23,5 +23,11 @@ class Submission < ActiveRecord::Base
           file.write(self.submissionFile)
       end
       update_column(:submissionFile, path)
+    end
+
+    def contest_has_ended
+      if(Contest.find_by(id: self.contest_id).endDateTime<DateTime.now)
+        errors.add(:contest_id,"Contest has ended. Please choose a current contest or practice")
+      end
     end
 end

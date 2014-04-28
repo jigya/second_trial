@@ -1,5 +1,6 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:new, :create]
 
   # GET /participants
   # GET /participants.json
@@ -25,13 +26,13 @@ class ParticipantsController < ApplicationController
   # POST /participants.json
   def create
     @participant = Participant.new(participant_params)
-
+    @participant.user_id=current_user.id
     respond_to do |format|
       if @participant.save
-        format.html { redirect_to @participant, notice: 'Participant was successfully created.' }
+        format.html { redirect_to Contest.find(@participant.contest_id), notice: 'You have successfully registered.' }
         format.json { render action: 'show', status: :created, location: @participant }
       else
-        format.html { render action: 'new' }
+        format.html { redirect_to Contest.find(@participant.contest_id), notice: 'You are already registered.'}
         format.json { render json: @participant.errors, status: :unprocessable_entity }
       end
     end

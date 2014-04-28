@@ -1,11 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Score:</strong>
-  <%= @participant.score %>
-</p>
-
-<p>
   <strong>Contest:</strong>
   <%= @participant.contest %>
 </p>
@@ -15,5 +10,3 @@
   <%= @participant.user %>
 </p>
 
-<%= link_to 'Edit', edit_participant_path(@participant) %> |
-<%= link_to 'Back', participants_path %>
